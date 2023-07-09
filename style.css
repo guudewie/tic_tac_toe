@@ -51,12 +51,17 @@ h1 {
     flex-shrink: 0;
     column-gap: 0px;
     row-gap: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 
     width: 169px;
     height: 169px;
     border: 1px solid #CCC5B9;
     background-color: rgb(255, 255, 255);
     cursor: crosshair;
+    font-size: 80px;
 }
 
 .sketch-container {
