@@ -7,28 +7,65 @@ MODULE
 FACTORIES
  - players
 
+
+FUNCTIONS I generally need
+
+ - render board
+ - add event listeners
+    - check if field is full already
+ - check if someone won
+ - display win message
+ - start game
+ - reset game
+
 */
 
 const gameboard = (() => {
 
-    let fields = ["X", "X", "X", "O", "O", "O", "X", "X", "X"];
-    let _domFields = document.querySelectorAll(".field");
+    let fields = ["", "", "", "", "", "", "", "", ""];
+    let domFields = document.querySelectorAll(".field");
 
     function renderFields() {
         for (f in fields) {
-            _domFields[f].textContent = fields[f]
+            domFields[f].textContent = fields[f]
         }
     };
 
     return {
         fields,
-        _domFields,
+        domFields,
         renderFields
     };
 })();
 
+const Player = (sign) => {
+    const getSign = () => sign;
 
-console.log(gameboard.renderFields())
+    const makeMove = () => {
+        gameboard.domFields.forEach(element => {
 
+            if (element.textContent) {
+                return
+            } else {
+                element.addEventListener("click", () => {
+                    element.textContent = sign;
+                })
+            }
+        });
+    };
+
+    return {
+        getSign,
+        makeMove,
+    }
+};
+
+
+gameboard.renderFields();
+
+const xPlayer = Player("X");
+
+console.log(xPlayer.getSign())
+console.log(xPlayer.makeMove())
 
 
