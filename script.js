@@ -31,16 +31,28 @@ const gameboard = (() => {
         }
     };
 
+    function removeEventListeners() {
+
+        domFields.forEach( e => {
+            
+            let eClone = e.cloneNode(true);
+            e.parentNode.replaceChild(eClone, e)
+            console.log(e.parentNode)
+        })
+    };
+
     return {
         arrayFields,
         domFields,
-        renderFields
+        renderFields,
+        removeEventListeners
     };
 })();
 
 const Player = (sign) => {
     const getSign = () => sign;
 
+    //remove event listener by cloning node and replacing it
     const makeMove = () => {
         gameboard.domFields.forEach(element => {
 
@@ -50,7 +62,7 @@ const Player = (sign) => {
                 element.addEventListener("click", () => {
                     element.textContent = sign;
                 })
-            }
+            };
         });
     };
 
