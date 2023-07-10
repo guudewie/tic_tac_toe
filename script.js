@@ -22,7 +22,7 @@ FUNCTIONS I generally need
 
 const gameboard = (() => {
 
-    let fields = ["", "", "", "", "", "", "", "", ""];
+    let arrayFields = ["", "", "", "", "", "", "", "", ""];
     let domFields = document.querySelectorAll(".field");
 
     function renderFields() {
@@ -32,7 +32,7 @@ const gameboard = (() => {
     };
 
     return {
-        fields,
+        arrayFields,
         domFields,
         renderFields
     };
@@ -61,11 +61,10 @@ const Player = (sign) => {
 };
 
 
-gameboard.renderFields();
 
 const xPlayer = Player("X");
-
-console.log(xPlayer.getSign())
-console.log(xPlayer.makeMove())
+const yPlayer = Player("Y");
 
 
+xPlayer.makeMove()
+yPlayer.makeMove()
