@@ -26,41 +26,55 @@ const gameboard = (() => {
     let domFields = document.querySelectorAll(".field");
 
     function renderFields() {
-        for (f in fields) {
-            domFields[f].textContent = fields[f]
+        for (f in arrayFields) {
+            domFields[f].textContent = arrayFields[f]
         }
     };
-
+    
+    //remove event listener by cloning node and replacing it
     function removeEventListeners() {
 
         domFields.forEach( e => {
             
             let eClone = e.cloneNode(true);
             e.parentNode.replaceChild(eClone, e)
-            console.log(e.parentNode)
         })
     };
+
+    function updateArray(element, sign) {
+        let index = element.getAttribute("data-index");
+
+        arrayFields[index] = sign;
+
+        console.log(arrayFields)
+
+    }
 
     return {
         arrayFields,
         domFields,
         renderFields,
-        removeEventListeners
+        removeEventListeners,
+        updateArray
     };
 })();
+
 
 const Player = (sign) => {
     const getSign = () => sign;
 
-    //remove event listener by cloning node and replacing it
     const makeMove = () => {
+        
         gameboard.domFields.forEach(element => {
 
             if (element.textContent) {
                 return
             } else {
                 element.addEventListener("click", () => {
-                    element.textContent = sign;
+                    gameboard.updateArray(element, sign)
+                    gameboard.renderFields()
+                    gameboard.removeEventListeners()
+                    
                 })
             };
         });
@@ -72,11 +86,29 @@ const Player = (sign) => {
     }
 };
 
+/*
+const game = (() => {
+
+    const xPlayer = Player("X");
+    const yPlayer = Player("Y");
+
+    function playGame() {
+        //if (!hasWon)
+        xPlayer.makeMove()
+        //await move
+        yPlayer.makeMove()
+        //await move
+    }
+
+    return {
+        playGame
+    }
+
+})();
+*/
 
 
 const xPlayer = Player("X");
 const yPlayer = Player("Y");
 
-
 xPlayer.makeMove()
-yPlayer.makeMove()
