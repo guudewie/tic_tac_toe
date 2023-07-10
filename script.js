@@ -1,22 +1,22 @@
 /*
 
-MODULE 
- - gamboard
- - displayController
+TO - DO
 
-FACTORIES
- - players
+start
+restart
+display winner
+display current player
+evt. highlight winning move
+rewrite _toggleCurrentPlayer to be as "  X ? 0 : 1  "
 
 
-FUNCTIONS I generally need
+logic ->    start game
+            make moves
+            display winner
+            start game
 
- - render board
- - add event listeners
-    - check if field is full already
- - check if someone won
- - display win message
- - start game
- - reset game
+
+
 
 */
 
@@ -42,14 +42,12 @@ const gameboard = (() => {
     };
 
     function _toggleCurrentPlayer() {
-        if (currentPlayer == "X") {
-            currentPlayer = "O"
-        } else {
-            currentPlayer = "X"
-        }
+
+        currentPlayer = (currentPlayer == "X") ? "O" : "X"
+        
     };
 
-    function removeEventListeners() {
+    function _removeEventListeners() {
 
         domFields.forEach( e => {
 
@@ -74,7 +72,7 @@ const gameboard = (() => {
                 let winner = game.checkIfWon()
                 if (winner) {
                     console.log("Game is over!", winner, " has won the Game!")
-                    removeEventListeners()
+                    _removeEventListeners()
                 }
             })
         });
