@@ -49,6 +49,16 @@ const gameboard = (() => {
         }
     };
 
+    function removeEventListeners() {
+
+        domFields.forEach( e => {
+
+            let eClone = e.cloneNode(true);
+            e.parentNode.replaceChild(eClone, e)
+            console.log(e.parentNode)
+        })
+    };
+
     function playRound() {
         domFields.forEach(element => {
 
@@ -62,8 +72,10 @@ const gameboard = (() => {
                 _toggleCurrentPlayer()
                 }
                 
-                if (game.checkIfWon()) {
-                    console.log("Game is over!", game.checkIfWon(), " has won the Game!")
+                let winner = game.checkIfWon()
+                if (winner) {
+                    console.log("Game is over!", winner, " has won the Game!")
+                    removeEventListeners()
                 }
             })
         });
