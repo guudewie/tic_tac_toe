@@ -35,16 +35,11 @@ const gameboard = (() => {
 
     function updateArray(element, sign) {
         let index = element.getAttribute("data-index");
-
         arrayFields[index] = sign;
-
-        console.log(arrayFields)
     };
 
     function _toggleCurrentPlayer() {
-
-        currentPlayer = (currentPlayer == "X") ? "O" : "X"
-        
+        currentPlayer = (currentPlayer == "X") ? "O" : "X"  
     };
 
     function _removeEventListeners() {
