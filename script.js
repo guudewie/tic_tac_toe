@@ -55,7 +55,6 @@ const gameboard = (() => {
 
             let eClone = e.cloneNode(true);
             e.parentNode.replaceChild(eClone, e)
-            console.log(e.parentNode)
         })
     };
 
