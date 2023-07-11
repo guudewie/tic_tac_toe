@@ -79,6 +79,12 @@ const game = (() => {
         }
     }
 
+    function checkIfDraw() {
+        if (gameboard.arrayFields.includes("")) return
+
+        displayLogic.displayTie()
+    }
+
     function playRound() {
 
         gameboard.getDomFields().forEach(element => {
@@ -100,6 +106,8 @@ const game = (() => {
                     _toggleCurrentPlayer()
                     displayLogic.displayWinner(_currentPlayer)
                     gameboard.removeEventListeners()
+                } else {
+                    checkIfDraw()
                 }
             })
         });
@@ -146,6 +154,10 @@ const displayLogic = (() => {
         _domDisplay.textContent = `Game is over! ${winnerSign} has won the Game!`
     }
 
+    function displayTie() {
+        _domDisplay.textContent = `It´s a tie!\nCat wins!`
+    }
+
     function displayNextPlayer(nextPlayer) {
         _domDisplay.textContent = `It´s ${nextPlayer}´s turn!`
     }
@@ -154,7 +166,8 @@ const displayLogic = (() => {
     return {
         displayWinner,
         displayNextPlayer,
-        resetDisplay
+        resetDisplay,
+        displayTie
     }
 
 })();
