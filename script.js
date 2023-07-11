@@ -2,11 +2,15 @@
 const gameboard = (() => {
 
     let arrayFields = ["", "", "", "", "", "", "", "", ""];
-    let domFields = document.querySelectorAll(".field");
+
+    function getDomFields() {
+        return document.querySelectorAll(".field");
+    }
 
     function renderFields() {
+        
         for (f in arrayFields) {
-            domFields[f].textContent = arrayFields[f]; 
+            getDomFields()[f].innerHTML = arrayFields[f]; 
         }
     };
 
@@ -18,7 +22,7 @@ const gameboard = (() => {
     function removeEventListeners() {
 
         // remove event listeners by cloning nodes
-        domFields.forEach( e => {
+        getDomFields().forEach( e => {
             let eClone = e.cloneNode(true);
             e.parentNode.replaceChild(eClone, e)
         })
@@ -26,13 +30,13 @@ const gameboard = (() => {
 
     function resetGameboard() {
         
-        domFields.forEach(element => updateArray(element, ""))
+        getDomFields().forEach(element => updateArray(element, ""))
         renderFields()
     }
 
     return {
         arrayFields,
-        domFields,
+        getDomFields,
         renderFields,
         updateArray,
         removeEventListeners,
@@ -76,7 +80,8 @@ const game = (() => {
     }
 
     function playRound() {
-        gameboard.domFields.forEach(element => {
+
+        gameboard.getDomFields().forEach(element => {
 
             element.addEventListener("click", () => {
 
@@ -108,6 +113,7 @@ const game = (() => {
             displayLogic.resetDisplay()
             gameboard.resetGameboard()
             resetCurrentPlayer()
+            playRound()
         })
     }
 
