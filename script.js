@@ -25,7 +25,6 @@ const gameboard = (() => {
 
     let arrayFields = ["", "", "", "", "", "", "", "", ""];
     let domFields = document.querySelectorAll(".field");
-    let currentPlayer = "X";
 
     function renderFields() {
         for (f in arrayFields) {
@@ -38,11 +37,7 @@ const gameboard = (() => {
         arrayFields[index] = sign;
     };
 
-    function _toggleCurrentPlayer() {
-        currentPlayer = (currentPlayer == "X") ? "O" : "X"  
-    };
-
-    function _removeEventListeners() {
+    function removeEventListeners() {
 
         domFields.forEach( e => {
 
@@ -51,34 +46,12 @@ const gameboard = (() => {
         })
     };
 
-    function playRound() {
-        domFields.forEach(element => {
-
-            element.addEventListener("click", () => {
-
-                if (element.textContent) {
-                    return
-                } else {
-                gameboard.updateArray(element, currentPlayer)
-                gameboard.renderFields()
-                _toggleCurrentPlayer()
-                }
-                
-                let winner = game.checkIfWon()
-                if (winner) {
-                    console.log("Game is over!", winner, " has won the Game!")
-                    _removeEventListeners()
-                }
-            })
-        });
-    };
-
     return {
         arrayFields,
         domFields,
         renderFields,
         updateArray,
-        playRound
+        removeEventListeners
     };
 })();
 
@@ -96,7 +69,12 @@ const game = (() => {
 
     const xPlayer = Player("X");
     const yPlayer = Player("Y");
+    let _currentPlayer = "X";
     let winner;
+
+    function _toggleCurrentPlayer() {
+        _currentPlayer = (_currentPlayer == "X") ? "O" : "X"  
+    };
 
     function checkIfWon() {
 
@@ -118,15 +96,39 @@ const game = (() => {
         }
     }
 
+    function playRound() {
+        gameboard.domFields.forEach(element => {
+
+            element.addEventListener("click", () => {
+
+                // skip already checked fields
+                if (element.textContent) {
+                    return
+                } else {
+                    gameboard.updateArray(element, _currentPlayer)
+                    gameboard.renderFields()
+                    _toggleCurrentPlayer()
+                }
+                
+                let winner = game.checkIfWon()
+                if (winner) {
+                    console.log("Game is over!", winner, " has won the Game!")
+                    gameboard.removeEventListeners()
+                }
+            })
+        });
+    };
+
     function playGame() {
         //if (!hasWon)
 
-        gameboard.playRound()
+        playRound()
 
     }
 
     return {
         playGame,
+        playRound,
         checkIfWon,
         winner
     }
