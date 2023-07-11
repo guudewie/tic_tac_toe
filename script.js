@@ -1,25 +1,3 @@
-/*
-
-TO - DO
-
-start
-restart
-display winner
-display current player
-evt. highlight winning move
-rewrite _toggleCurrentPlayer to be as "  X ? 0 : 1  "
-
-
-logic ->    start game
-            make moves
-            display winner
-            start game
-
-
-
-
-*/
-
 
 const gameboard = (() => {
 
@@ -28,7 +6,7 @@ const gameboard = (() => {
 
     function renderFields() {
         for (f in arrayFields) {
-            domFields[f].textContent = arrayFields[f]
+            domFields[f].textContent = arrayFields[f]; 
         }
     };
 
@@ -39,19 +17,26 @@ const gameboard = (() => {
 
     function removeEventListeners() {
 
+        // remove event listeners by cloning nodes
         domFields.forEach( e => {
-
             let eClone = e.cloneNode(true);
             e.parentNode.replaceChild(eClone, e)
         })
     };
+
+    function resetGameboard() {
+        
+        domFields.forEach(element => updateArray(element, ""))
+        renderFields()
+    }
 
     return {
         arrayFields,
         domFields,
         renderFields,
         updateArray,
-        removeEventListeners
+        removeEventListeners,
+        resetGameboard
     };
 })();
 
@@ -65,6 +50,10 @@ const game = (() => {
     function _toggleCurrentPlayer() {
         _currentPlayer = (_currentPlayer == "X") ? "O" : "X"  
     };
+
+    function resetCurrentPlayer() {
+        _currentPlayer = "X"        
+    }
 
     function checkIfWon() {
 
@@ -111,10 +100,22 @@ const game = (() => {
         });
     };
 
+    function resetGame() {
+        
+        let domReset = document.querySelector(".reset-button");
+
+        domReset.addEventListener("click", () => {
+            displayLogic.resetDisplay()
+            gameboard.resetGameboard()
+            resetCurrentPlayer()
+        })
+    }
+
     function playGame() {
         //if (!hasWon)
 
         playRound()
+        resetGame()
 
     }
 
@@ -129,22 +130,25 @@ const game = (() => {
 
 const displayLogic = (() => {
 
-    let domDisplay = document.getElementById("display")
+    let _domDisplay = document.getElementById("display")
 
+    function resetDisplay() {
+        _domDisplay.textContent = "Game is reset!\n X starts the Game!"
+    }
 
     function displayWinner(winnerSign) {
-        domDisplay.textContent = `Game is over! ${winnerSign} has won the Game!`
+        _domDisplay.textContent = `Game is over! ${winnerSign} has won the Game!`
     }
 
     function displayNextPlayer(nextPlayer) {
-        domDisplay.textContent = `It´s ${nextPlayer}´s turn!`
+        _domDisplay.textContent = `It´s ${nextPlayer}´s turn!`
     }
 
 
     return {
         displayWinner,
         displayNextPlayer,
-        domDisplay
+        resetDisplay
     }
 
 })();
@@ -153,70 +157,3 @@ const displayLogic = (() => {
 game.playGame()
 
 
-
-/*
-
-// vertical win
-(gameboard.arrayFields[0] === 
-    gameboard.arrayFields[3] ===
-    gameboard.arrayFields[6] ===) ||
-    
-    (gameboard.arrayFields[1] === 
-    gameboard.arrayFields[4] ===
-    gameboard.arrayFields[7] ===)  ||
-    
-    (gameboard.arrayFields[2] === 
-    gameboard.arrayFields[5] ===
-    gameboard.arrayFields[8] ===)  ||
-    
-    // horizontal win
-    (gameboard.arrayFields[0] === 
-    gameboard.arrayFields[1] ===
-    gameboard.arrayFields[2] ===)  ||
-    
-    (gameboard.arrayFields[3] === 
-    gameboard.arrayFields[4] ===
-    gameboard.arrayFields[5] ===)  ||
-    
-    (gameboard.arrayFields[6] === 
-    gameboard.arrayFields[7] ===
-    gameboard.arrayFields[8] ===)  ||
-    
-    // diogonal win
-    (gameboard.arrayFields[0] === 
-    gameboard.arrayFields[4] ===
-    gameboard.arrayFields[8] ===)  ||
-    
-    (gameboard.arrayFields[2] === 
-    gameboard.arrayFields[4] ===
-    gameboard.arrayFields[6] ===) 
-
-[   "O", "", "",
-    "O", "", "",
-    "O", "", ""  ]
-[   "", "O", "",
-    "", "O", "",
-    "", "O", ""  ]
-[   "", "", "O",
-    "", "", "O",
-    "", "", "O"  ]
-
-[   "O", "O", "O",
-    "", "", "",
-    "", "", ""  ]
-[   "", "", "",
-    "O", "O", "O",
-    "", "", ""  ]
-[   "", "", "",
-    "", "", "",
-    "O", "O", "O"  ]
-
-[   "O", "", "",
-    "", "O", "",
-    "", "", "O"  ]
-
-[   "", "", "O",
-    "", "O", "",
-    "O", "", ""  ]
-
-*/
