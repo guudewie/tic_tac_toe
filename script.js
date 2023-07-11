@@ -56,19 +56,10 @@ const gameboard = (() => {
 })();
 
 
-const Player = (sign) => {
-    const getSign = () => sign;
-
-    return {
-        getSign
-    }
-};
-
 
 const game = (() => {
 
-    const xPlayer = Player("X");
-    const yPlayer = Player("Y");
+    
     let _currentPlayer = "X";
     let winner;
 
