@@ -139,7 +139,7 @@ const displayLogic = (() => {
     let _domDisplay = document.getElementById("display")
 
     function resetDisplay() {
-        _domDisplay.textContent = "Game is reset!\n X starts the Game!"
+        _domDisplay.innerText = "Game is reset!\nX starts the Game!"
     }
 
     function displayWinner(winnerSign) {
