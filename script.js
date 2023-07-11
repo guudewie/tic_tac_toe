@@ -59,7 +59,6 @@ const gameboard = (() => {
 
 const game = (() => {
 
-    
     let _currentPlayer = "X";
     let winner;
 
@@ -99,11 +98,13 @@ const game = (() => {
                     gameboard.updateArray(element, _currentPlayer)
                     gameboard.renderFields()
                     _toggleCurrentPlayer()
+                    displayLogic.displayNextPlayer(_currentPlayer)
                 }
                 
                 let winner = game.checkIfWon()
                 if (winner) {
-                    console.log("Game is over!", winner, " has won the Game!")
+                    _toggleCurrentPlayer()
+                    displayLogic.displayWinner(_currentPlayer)
                     gameboard.removeEventListeners()
                 }
             })
@@ -125,6 +126,29 @@ const game = (() => {
     }
 
 })();
+
+const displayLogic = (() => {
+
+    let domDisplay = document.getElementById("display")
+
+
+    function displayWinner(winnerSign) {
+        domDisplay.textContent = `Game is over! ${winnerSign} has won the Game!`
+    }
+
+    function displayNextPlayer(nextPlayer) {
+        domDisplay.textContent = `It´s ${nextPlayer}´s turn!`
+    }
+
+
+    return {
+        displayWinner,
+        displayNextPlayer,
+        domDisplay
+    }
+
+})();
+
 
 game.playGame()
 
